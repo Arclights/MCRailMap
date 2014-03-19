@@ -1,9 +1,9 @@
-import mcrailmap.Parser
+import Parser
 from PrintBlocks import print_blocks
 
 def test_parsing():
-	blocks = Parser.getRailBlocks('region/')
-	print_blocks(blocks[4])
+	blocks = Parser.get_rail_blocks('region/')
+	print_blocks(blocks)
 	# print blocks[4]
 
 

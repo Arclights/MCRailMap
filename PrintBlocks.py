@@ -117,8 +117,8 @@ def print_blocks(blocks):
 	maxXPos = -sys.maxint - 1
 	maxZPos = -sys.maxint - 1
 	for block in blocks:
-		x = block.xPosReal
-		z = block.zPosReal
+		x = block.x_pos_real
+		z = block.z_pos_real
 
 		if(x > maxXPos):
 			maxXPos = x

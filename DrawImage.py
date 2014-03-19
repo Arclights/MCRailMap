@@ -5,25 +5,42 @@ Created on 2 feb 2013
 '''
 from PIL import Image
 from PIL.ImageDraw import ImageDraw
-from Parser import getRailBlocks
+from Parser import get_rail_blocks
+import sys
 
 if __name__ == '__main__':
-    blocks = getRailBlocks('region/');
-    width = abs(blocks[3] - blocks[1])+4
-    height = abs(blocks[2] - blocks[0])+4
+    blocks = get_rail_blocks('region/');
+
+    min_x_pos = sys.maxint
+    min_z_pos = sys.maxint
+    max_x_pos = -sys.maxint - 1
+    max_z_pos = -sys.maxint - 1
+
+    for r_ in blocks:
+        if(r_.x_pos_real > max_x_pos):
+            max_x_pos = r_.x_pos_real
+        elif(r_.x_pos_real < min_x_pos):
+            min_x_pos = r_.x_pos_real
+
+        if(r_.z_pos_real > max_z_pos):
+            max_z_pos = r_.z_pos_real
+        elif(r_.z_pos_real < min_z_pos):
+            min_z_pos = r_.z_pos_real
+
+    width = abs(max_z_pos - min_z_pos)+4
+    height = abs(max_x_pos - min_x_pos)+4
     print('width {0}, height {1}'.format(width, height))
     
     img = Image.new("RGB", (width, height), "white")
     draw = ImageDraw(img)
 
-    for r in blocks[4]:
-        chunk_x = r.xPosChunk
-        chunk_z = r.zPosChunk
-        for x in range(16):
-            for z in range(16):
-                draw.point((chunk_z+ z- blocks[1]+2, chunk_x + x- blocks[0]+2), r.color)
-    pixels = img.load()
-    for r in blocks[4]:
-        coord = r.getCoords();
-        draw.point((coord[1] - blocks[1]+2, coord[0] - blocks[0]+2), "black")
+    
+
+    for r_ in blocks:
+        chunk_x = r_.x_pos_chunk
+        chunk_z = r_.z_pos_chunk
+        for x_ in range(16):
+            for z_ in range(16):
+                draw.point((chunk_z + z_ - min_x_pos + 2, chunk_x + x_ - max_x_pos + 2), r_.color)
+        draw.point((r_.x_pos_real - min_x_pos + 2, r_.z_pos_real - min_z_pos + 2), "black")
     img.save("img.png", "PNG")
