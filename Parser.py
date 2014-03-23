@@ -128,3 +128,15 @@ def get_rail_blocks(directory):
 		f_in.close()
 	
 	return rail_blocks
+
+if __name__ == '__main__':
+	blocks = get_rail_blocks('region/')
+	f = open('parsed_blocks', 'w')
+	for block in blocks:
+		f.write(str(block.x_pos_real))
+		f.write(' ')
+		f.write(str(block.z_pos_real))
+		f.write(' ')
+		f.write(str(block.data))
+		f.write('\n')
+	f.close()
