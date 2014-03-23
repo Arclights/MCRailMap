@@ -1,0 +1,9 @@
+*pyc
+*.png
+*.pb
+*.txt
+Regions1/
+Regions2/
+region/
+chunks/
+.metadata
