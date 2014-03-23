@@ -1,9 +1,6 @@
 package test;
 
 import gui.MainWindow;
-import gui.elements.Bend;
-import gui.elements.Station;
-import gui.elements.Track;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,16 +26,12 @@ public class TestGUI {
 		}
 
 		for (int i = 0; i < 3; i++) {
-			Track t = new Track();
 			Node n1 = nodes.remove(nodes.size() - 1);
-			t.addPart(new Station(n1));
 			Node n2 = nodes.remove(nodes.size() - 1);
 			n1.addNeighbour(n2);
-			t.addPart(new Bend(n2));
 			Node n3 = nodes.remove(nodes.size() - 1);
 			n2.addNeighbour(n3);
-			t.addPart(new Station(n3));
-			g.addTrack(t);
+			g.addStartNode(n1);
 		}
 		return g;
 	}

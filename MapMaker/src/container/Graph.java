@@ -1,36 +1,23 @@
 package container;
 
-import gui.elements.Track;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
-public class Graph implements Iterable<Track> {
-	ArrayList<Track> tracks;
+public class Graph implements Iterable<Node> {
 
-	// HashMap<Position, Node> startNodes;
+	HashMap<Position, Node> startNodes;
 
 	public Graph() {
-		tracks = new ArrayList<>();
-		// startNodes = new HashMap<>();
+		startNodes = new HashMap<>();
 	}
 
-	public void addTrack(Track t) {
-		tracks.add(t);
+	public void addStartNode(Node n) {
+		startNodes.put(n.pos, n);
 	}
 
-	// public void addStartNode(Node n) {
-	// startNodes.put(n.pos, n);
-	// }
-
-	// @Override
-	// public Iterator<Node> iterator() {
-	// return startNodes.values().iterator();
-	// }
-	
 	@Override
-	public Iterator<Track> iterator() {
-		return tracks.iterator();
+	public Iterator<Node> iterator() {
+		return startNodes.values().iterator();
 	}
 
 }
