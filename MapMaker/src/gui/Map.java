@@ -24,6 +24,7 @@ public class Map extends JPanel implements MouseInputListener {
 
 	Tracks tracks;
 
+
 	public Map(Graph graph) {
 		setBackground(Color.WHITE);
 		addMouseListener(this);
@@ -46,6 +47,7 @@ public class Map extends JPanel implements MouseInputListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		System.out.println("Dragged");
 		for (Track t : tracks) {
 			t.mouseDragged(e);
 		}
@@ -65,13 +67,17 @@ public class Map extends JPanel implements MouseInputListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println("Clicked");
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		System.out.println("pressed");
+		for (Track t : tracks) {
+			t.mousePressed(e);
+		}
 
 	}
 

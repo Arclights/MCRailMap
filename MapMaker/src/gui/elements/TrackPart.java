@@ -5,28 +5,36 @@ import gui.Utility;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.ArrayList;
 
 import settings.GUISettings;
 import container.Node;
 
 public abstract class TrackPart {
 
-	Node n;
-	ArrayList<TrackPart> neighbours;
+	public Node n;
+	public TrackPart prevNeighbour;
+	public TrackPart nextNeighbour;
+	boolean pressed;
 
 	public TrackPart(Node n) {
 		this.n = n;
-		neighbours = new ArrayList<>();
 	}
 
-	public void addNeightbour(TrackPart neighbour) {
-		neighbours.add(neighbour);
+	public void setPrevNeightbour(TrackPart neighbour) {
+		prevNeighbour = neighbour;
+	}
+
+	public void setNextNeightbour(TrackPart neighbour) {
+		nextNeighbour = neighbour;
 	}
 
 	public abstract boolean needRepaint(Point p);
 
 	public abstract boolean isOnPart(Point p);
+
+	public boolean isPressed() {
+		return pressed;
+	}
 
 	public void move(int x, int z) {
 		n.pos.x = x;
@@ -35,17 +43,24 @@ public abstract class TrackPart {
 
 	public abstract void paintPart(Graphics2D g);
 
-	public void paintLines(Graphics2D g) {
-		for (TrackPart neighbour : neighbours) {
-			paintLine(g, n.pos.x, n.pos.z, neighbour.n.pos.x, neighbour.n.pos.z);
+	public void paint(Graphics2D g) {
+		paintLines(g);
+		paintPart(g);
+		if (nextNeighbour != null) {
+			nextNeighbour.paint(g);
 		}
 	}
 
-//	protected void paintLine(Graphics2D g) {
-//		for (TrackPart tp : neighbours) {
-//			paintLine(g, n.pos.x, n.pos.z, tp.n.pos.x, tp.n.pos.z);
-//		}
-//	}
+	public void paintLines(Graphics2D g) {
+		if (nextNeighbour != null) {
+			paintLine(g, n.pos.x, n.pos.z, nextNeighbour.n.pos.x,
+					nextNeighbour.n.pos.z);
+		}
+	}
+
+	public void setPressed(boolean pressed) {
+		this.pressed = pressed;
+	}
 
 	private static void paintLine(Graphics2D g, int xFrom, int zFrom, int xTo,
 			int zTo) {

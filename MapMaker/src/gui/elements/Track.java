@@ -1,5 +1,7 @@
 package gui.elements;
 
+import gui.elements.moving.MovingTrack;
+
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -10,7 +12,7 @@ import container.Node;
 public class Track {
 
 	ArrayList<TrackPart> parts;
-	MovingStation ms;
+	MovingTrack mt;
 
 	public Track(Node startNode) {
 		parts = new ArrayList<>();
@@ -24,24 +26,20 @@ public class Track {
 			if (n.hasNeighbour()) {
 				currentTrackPart = new Bend(n);
 				parts.add(currentTrackPart);
-				lastTrackPart.addNeightbour(currentTrackPart);
-				currentTrackPart.addNeightbour(lastTrackPart);
+				lastTrackPart.setNextNeightbour(currentTrackPart);
+				currentTrackPart.setPrevNeightbour(lastTrackPart);
 				lastTrackPart = currentTrackPart;
 			} else {
 				if (n != startNode) {
 					currentTrackPart = new Station(n);
 					parts.add(currentTrackPart);
-					lastTrackPart.addNeightbour(currentTrackPart);
-					currentTrackPart.addNeightbour(lastTrackPart);
+					lastTrackPart.setNextNeightbour(currentTrackPart);
+					currentTrackPart.setPrevNeightbour(lastTrackPart);
 				}
 				break;
 			}
 			n = n.getNeighbour();
 		}
-	}
-
-	public void addPart(TrackPart tp) {
-		parts.add(tp);
 	}
 
 	public boolean needRepaint(Point p) {
@@ -55,36 +53,51 @@ public class Track {
 
 	public void mouseDragged(MouseEvent e) {
 		Point mouseLocation = e.getPoint();
-		if (ms == null) {
+		if (mt == null) {
 			for (TrackPart tp : parts) {
-				if (tp.isOnPart(mouseLocation)) {
-					ms = new MovingStation((Station) tp);
+				if (tp.isOnPart(mouseLocation) && tp.isPressed()) {
+					mt = new MovingTrack((Station) tp);
 				}
 			}
 		}
 
-		if (ms != null) {
-			ms.updatePosition(mouseLocation.x, mouseLocation.y);
+		if (mt != null) {
+			mt.updatePosition(mouseLocation.x, mouseLocation.y);
 		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		if (ms != null) {
-			ms.moveTrackPart();
-			ms = null;
+		if (mt != null) {
+			mt.moveTrack();
+			mt = null;
+			
+			for (TrackPart tp : parts) {
+				tp.setPressed(false);
+			}
 		}
+		
+	}
 
+	public void mousePressed(MouseEvent e) {
+		Point mouseLocation = e.getPoint();
+		for (TrackPart tp : parts) {
+			if (tp.isOnPart(mouseLocation)) {
+				tp.setPressed(true);
+				break;
+			}
+		}
 	}
 
 	public void paint(Graphics2D g) {
-		for (TrackPart tp : parts) {
-			tp.paintLines(g);
-		}
-		for (TrackPart tp : parts) {
-			tp.paintPart(g);
-		}
-		if (ms != null) {
-			ms.paint(g);
+//		for (TrackPart tp : parts) {
+//			tp.paintLines(g);
+//		}
+//		for (TrackPart tp : parts) {
+//			tp.paintPart(g);
+//		}
+		parts.get(0).paint(g);
+		if (mt != null) {
+			mt.paint(g);
 		}
 	}
 

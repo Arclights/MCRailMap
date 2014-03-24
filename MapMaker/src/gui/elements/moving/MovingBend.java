@@ -1,4 +1,6 @@
-package gui.elements;
+package gui.elements.moving;
+
+import gui.elements.TrackPart;
 
 import java.awt.Graphics2D;
 
@@ -10,8 +12,7 @@ public class MovingBend extends MovingTrackPart{
 	}
 
 	@Override
-	public void paint(Graphics2D g) {
-		paintLine(g);
+	public void paintPart(Graphics2D g) {
 	}
 
 }

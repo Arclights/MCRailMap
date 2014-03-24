@@ -34,7 +34,6 @@ public class Station extends TrackPart {
 		g.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON));
 
-
 		if (hover) {
 			Utility.paintGlow(g, shape);
 			Utility.resetStroke(g);
@@ -58,6 +57,7 @@ public class Station extends TrackPart {
 			return false;
 		}
 	}
+
 
 	@Override
 	public boolean isOnPart(Point p) {
