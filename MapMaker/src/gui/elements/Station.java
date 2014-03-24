@@ -20,7 +20,12 @@ public class Station extends TrackPart {
 		super(n);
 	}
 
-	public void paint(Graphics2D g) {
+	public void move(int x, int z) {
+		n.pos.x = x;
+		n.pos.z = z;
+	}
+
+	public void paintPart(Graphics2D g) {
 
 		shape = new Ellipse2D.Double(n.pos.x - GUISettings.circleRadius,
 				n.pos.z - GUISettings.circleRadius,
@@ -29,7 +34,6 @@ public class Station extends TrackPart {
 		g.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON));
 
-		paintLine(g);
 
 		if (hover) {
 			Utility.paintGlow(g, shape);
@@ -53,5 +57,11 @@ public class Station extends TrackPart {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public boolean isOnPart(Point p) {
+		// TODO Auto-generated method stub
+		return shape.contains(p);
 	}
 }

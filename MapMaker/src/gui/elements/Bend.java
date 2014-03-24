@@ -18,9 +18,14 @@ public class Bend extends TrackPart {
 	}
 
 	@Override
-	public void paint(Graphics2D g) {
-		paintLine(g);
+	public void paintPart(Graphics2D g) {
 
+	}
+
+	@Override
+	public boolean isOnPart(Point p) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
